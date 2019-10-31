@@ -4,7 +4,7 @@ import torch
 import torch.distributed as dist
 from torch import nn
 from torch.autograd.function import Function
-
+from GN_w_BN import GN_w_BN_f
 from detectron2.utils import comm
 
 from .wrappers import BatchNorm2d
@@ -119,7 +119,7 @@ def get_norm(norm, out_channels):
         if len(norm) == 0:
             return None
         norm = {
-            "BN": BatchNorm2d,
+            "BN": GN_w_BN_f,
             "SyncBN": NaiveSyncBatchNorm,
             "FrozenBN": FrozenBatchNorm2d,
             "GN": lambda channels: nn.GroupNorm(32, channels),
